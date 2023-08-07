@@ -1,12 +1,30 @@
-const resetButton = document.querySelector('button');
+const resetButton = document.getElementById('reset-button');
+const blackDrawButton = document.getElementById('black-draw-button')
+const randomDrawButton = document.getElementById('random-draw-button')
 const container = document.querySelector('.container');
 
 let isDrawing = false;
+let drawMode = 'black';
 
 function changeColor(event) {
   if (isDrawing) {
-    event.target.style.backgroundColor = 'black';
+    if (drawMode === 'black') {
+        event.target.style.backgroundColor = 'black';
+    } else if (drawMode === 'random') {
+        const randomColor = getRandomColor();
+        console.log('random color:', randomColor)
+        event.target.style.backgroundColor = randomColor;
+    }
   }
+}
+
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#'
+    for (let k = 0; k < 6; k++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 
 function startDrawing() {
@@ -63,3 +81,11 @@ resetButton.addEventListener('click', () => {
     createGrid(userSize);
   }
 });
+
+blackDrawButton.addEventListener('click', () => {
+    drawMode = 'black';
+})
+
+randomDrawButton.addEventListener('click', () => {
+    drawMode = 'random';
+})
